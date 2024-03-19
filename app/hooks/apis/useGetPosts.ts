@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {axiosClients} from '~/apis';
+import {AxiosResponse} from 'axios';
 
 interface IPost {
   id: number;
@@ -16,8 +17,8 @@ export const useGetPost = () => {
     setIsloading(true);
     axiosClients
       .get('https://dummyjson.com/products')
-      .then(response => {
-        const {products: data} = response.data as IResponse;
+      .then((response: AxiosResponse<IResponse>) => {
+        const {products: data} = response.data;
         setPosts(data);
       })
       .finally(() => setIsloading(false));

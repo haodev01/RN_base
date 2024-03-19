@@ -31,8 +31,8 @@ export const useGetProducs = ({configs, initQueryParams}: Configs) => {
     queryKey,
     queryFn: () => getProducts({...initQueryParams}),
     ...configs,
+    staleTime: 1000,
   });
-  console.log('daaaaaa', data);
 
   return {
     data,
