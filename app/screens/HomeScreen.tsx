@@ -1,23 +1,44 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {Dimensions, ScrollView, View} from 'react-native';
+import {
+  Platform,
+  SafeAreaView,
+  NativeModules,
+  ScrollView,
+  View,
+  RefreshControl,
+} from 'react-native';
 import {FlastListAnimated} from '~/components/base/FlastListAnimated/FlastListAnimated';
-
+const {StatusBarManager} = NativeModules;
 interface IProps
   extends NativeStackScreenProps<RootStackParamList, 'HomeScreen'> {}
 
 export const HomeScreen = (props: IProps) => {
   const {} = props;
-  return (
-    <View style={{flex: 1, marginTop: 60}}>
-      <ScrollView
-        style={{
-          height: Dimensions.get('screen').height - 400,
-        }}>
-        <View style={{height: 5000}} />
-      </ScrollView>
+  const [refreshing, setRefreshing] = React.useState(false);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+  return (
+    <SafeAreaView
+      style={{
+        paddingTop: Platform.OS === 'android' ? StatusBarManager.HEIGHT : 0,
+      }}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            title="Cập nhập"
+          />
+        }>
+        <View style={{height: 500}} />
+      </ScrollView>
       <FlastListAnimated />
-    </View>
+    </SafeAreaView>
   );
 };

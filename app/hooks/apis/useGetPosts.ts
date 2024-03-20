@@ -2,9 +2,11 @@ import {useEffect, useState} from 'react';
 import {axiosClients} from '~/apis';
 import {AxiosResponse} from 'axios';
 
-interface IPost {
+export interface IPost {
   id: number;
   title: string;
+  thumbnail: string;
+  description: string;
 }
 interface IResponse {
   limit: number;
@@ -27,11 +29,14 @@ export const useGetPost = () => {
   useEffect(() => {
     handleGetPost();
   }, []);
+  const handleEndReached = () => {
+    handleGetPost();
+  };
 
   return {
     isLoading,
     setIsloading,
     data: posts,
-    refetch: handleGetPost,
+    handleEndReached,
   };
 };

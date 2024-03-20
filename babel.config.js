@@ -22,6 +22,7 @@ module.exports = {
           '~/apis': './app/apis',
           '~/constants': './app/constants',
           '~/store': './app/store',
+          '~/theme': './app/theme',
         },
       },
     ],
